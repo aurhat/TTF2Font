@@ -419,8 +419,8 @@ int main(int argc, char *argv[])
 
 		if(!*outname) outname = cutname;
 
-		s_sprintf(imgname)("%s.png", outname);
-		s_sprintf(cfgname)("%s.cfg", outname);
+		s_sprintf(imgname)("%s%s.png", gametype == GAME_AC ? "chars_" : "", outname);
+		s_sprintf(cfgname)("%s%s.cfg", gametype == GAME_AC ? "font_" : "", outname);
 
 		if(SDL_Init(SDL_INIT_NOPARACHUTE) != -1)
 		{
