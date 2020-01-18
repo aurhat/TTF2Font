@@ -1,8 +1,8 @@
 CXXOPTFLAGS= -O3 -fsigned-char -fomit-frame-pointer -ffast-math -fno-strict-aliasing
-TINCLUDES= -Ishared `sdl-config --cflags`
+TINCLUDES= -Ishared `sdl2-config --cflags`
 TCXXFLAGS= -Wall -DTTF2FONT $(CXXOPTFLAGS) $(TINCLUDES)
 
-TTF_LIBS= -L/usr/X11R6/lib `sdl-config --libs` -lSDL_image -lSDL_ttf -lpng -lz
+TTF_LIBS= -L/usr/X11R6/lib -lSDL2 -lSDL2_ttf -lpng -lz
 TTF_OBJS= \
 	shared/tools-ttf.o \
 	shared/ttf2font-ttf.o
