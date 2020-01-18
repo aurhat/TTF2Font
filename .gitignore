@@ -1,0 +1,6 @@
+*.o
+*.depend
+*.layout
+src/ttf2font
+src/.objs/*
+
