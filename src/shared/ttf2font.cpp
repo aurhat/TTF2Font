@@ -206,7 +206,7 @@ int tryfont(int isize, int fsize, bool commit)
 						{
 							s[k] = TTF_RenderText_Shaded(f, m, c[k], c[2]);
 							if(s[k])
-								SDL_SetColorKey(s[k], SDL_SRCCOLORKEY,
+								SDL_SetColorKey(s[k], SDL_TRUE,
 									SDL_MapRGBA(s[k]->format, c[2].r, c[2].g, c[2].b, 0));
 							break;
 						}
@@ -214,7 +214,7 @@ int tryfont(int isize, int fsize, bool commit)
 						default:
 						{
 							s[k] = TTF_RenderText_Blended(f, m, c[k]);
-							if(s[k]) SDL_SetAlpha(s[k], 0, 0);
+							if(s[k]) SDL_SetSurfaceAlphaMod(s[k], 0);
 							break;
 						}
 					}
