@@ -13,6 +13,7 @@
 // 	-g<N[0..3]>	game type
 // 	-i<N>		image size
 // 	-s<N>		font size
+// 	-t<N[0..5]>	char thickness
 // 	-p<N>		char padding
 // 	-d<N>		shadow depth
 // 	-o<N>		outward shadow
@@ -54,7 +55,7 @@ static struct gametypes
 const char *program, *fonname = NULL, *outname = "default";
 string cutname, imgname, cfgname;
 int retcode = -1, win32msg = 0, gametype = GAME_NONE,
-	imgsize = 0, fonsize = 0, padsize = 1, shdsize = 2, outline = 1,
+	imgsize = 0, fonsize = 0, thickness = 0, padsize = 1, shdsize = 2, outline = 1,
 		quality = 2, pngcomp = Z_BEST_SPEED;
 
 void conoutf(const char *text, ...)
@@ -168,6 +169,9 @@ int tryfont(int isize, int fsize, bool commit)
 	int cf = CF_NONE;
 
 	TTF_Font *f = TTF_OpenFont(findfile(fonname, "r"), fsize);
+	TTF_Font *f_outline = TTF_OpenFont(findfile(fonname, "r"), fsize);
+	bool th = thickness && quality == 2 && f_outline;
+	if(th) TTF_SetFontOutline(f_outline, thickness);
 
 	if(f)
 	{
@@ -214,6 +218,13 @@ int tryfont(int isize, int fsize, bool commit)
 						default:
 						{
 							s[k] = TTF_RenderText_Blended(f, m, c[k]);
+							if(th)
+							{
+								SDL_Surface *out_surface = TTF_RenderText_Blended(f_outline, m, c[k]);
+								SDL_Rect rect = {thickness, thickness, (Uint16)s[k]->w, (Uint16)s[k]->h};
+								SDL_BlitSurface(out_surface, &rect, s[k], NULL);
+								SDL_FreeSurface(out_surface);
+							}
 							if(s[k]) SDL_SetSurfaceAlphaMod(s[k], 0);
 							break;
 						}
@@ -374,7 +385,7 @@ void makefont()
 
 void usage()
 {
-	conoutf("%s usage:\n\n\t-?\t\tthis help\n\t-h<S>\t\thome dir, output directory\n\t-g<N[0..3]>\tgame type\n\t-f<S>\t\tfont file\n\t-n<S>\t\toutput name\n\t-i<N>\t\timage size\n\t-s<N>\t\tfont size\n\t-p<N>\t\tchar padding\n\t-d<N>\t\tshadow depth\n\t-o<N[0..1]>\toutward shadow\n\t-q<N[0..2]>\trender quality\n\t-c<N[0..9]>\tcompress level", program);
+	conoutf("%s usage:\n\n\t-?\t\tthis help\n\t-h<S>\t\thome dir, output directory\n\t-g<N[0..3]>\tgame type\n\t-f<S>\t\tfont file\n\t-n<S>\t\toutput name\n\t-i<N>\t\timage size\n\t-s<N>\t\tfont size\n\t-t<N[0..5]>\tchar thickness\n\t-p<N>\t\tchar padding\n\t-d<N>\t\tshadow depth\n\t-o<N[0..1]>\toutward shadow\n\t-q<N[0..2]>\trender quality\n\t-c<N[0..9]>\tcompress level", program);
 }
 
 int main(int argc, char *argv[])
@@ -396,6 +407,7 @@ int main(int argc, char *argv[])
 			case 'g': gametype = clamp(atoi(&argv[i][2]), int(GAME_NONE), int(GAME_MAX-1)); break;
 			case 'i': imgsize = max(atoi(&argv[i][2]), 0); imgsize -= imgsize%2; break;
 			case 's': fonsize = max(atoi(&argv[i][2]), 0); break;
+			case 't': thickness = clamp(atoi(&argv[i][2]), 0, 5); break;
 			case 'p': padsize = max(atoi(&argv[i][2]), 0); break;
 			case 'd': shdsize = max(atoi(&argv[i][2]), 0); break;
 			case 'o': outline = clamp(atoi(&argv[i][2]), 0, 1); break;
