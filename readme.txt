@@ -30,7 +30,8 @@ Contents
 
 Download
 
-	Please see http://bloodfrontier.com/TTF2Font for further information.
+	Please see https://sourceforge.net/projects/bloodfrontier/files/Vault/TTF2Font/ for download original upstream 0.3 version.
+	Later improvements are available in https://github.com/ienorand/TTF2Font repository and its fork: https://github.com/aurhat/TTF2Font .
 
 Usage
 
