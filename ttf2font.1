@@ -68,6 +68,11 @@ Defines the point size of the font to use to
 .IR fonsize ,
 defaults to "56".
 .TP
+.BI \-t thickness {0..5}
+Adds
+.IR thickness
+pixels of white outline around each character, defaults to "0". This outline has the same color as character and is blited to it, what increases thickness of generated characters. This works only if quality is set to "2".
+.TP
 .BI \-p padsize
 Adds
 .I padsize

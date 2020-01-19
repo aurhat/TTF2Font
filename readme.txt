@@ -70,6 +70,12 @@ Usage
 -sN
 	Defines the point size of the font to use to N, which defaults to "56".
 
+-tN
+	Adds N pixels of white outline around each character (range: 0..5),
+	defaults to "0". This outline has the same color as character and is
+	blited to it, what increases thickness of generated characters. This works
+	only if quality is set to "2".
+
 -pN
 	Adds N pixels of padding around each character, which defaults to "1".
 	This is useful if pixels "bleed" into the characters around it. The
@@ -123,3 +129,5 @@ v0.3.1 UNRELEASED
     * GitHub repo
     * Copyright clarification & cleanup
     * Manpage
+    * -t arg to increase char thickness
+
